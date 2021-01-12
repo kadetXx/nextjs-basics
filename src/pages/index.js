@@ -1,11 +1,12 @@
 import react from "react"
 import Link from 'next/link'
+import Nav from '../components/nav'
 
 const Page = () => {
 
   return (
     <div>
-      <h2>Hello World!</h2>
+      <Nav />
       <Link href="notes">
         <a>Go to notes</a>
       </Link>
