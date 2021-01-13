@@ -11,7 +11,7 @@ const Page = ({ content: { title } }) => {
     <div>
       <Nav />
       <h1> { title } </h1>
-      <Link href="notes">
+      <Link href="/notes">
         <a>Go to notes</a>
       </Link>
       <Width />
