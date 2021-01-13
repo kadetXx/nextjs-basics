@@ -20,7 +20,7 @@ const Page = ({ note }) => {
 export default Page;
 
 export async function getServerSideProps({ params, req, res }) {
-  const response = await fetch(`http://localhost:3000/api/notes/${params.id}`);
+  const response = await fetch(`${process.env.API_URL}/api/notes/${params.id}`);
 
   if (!response.ok) {
     res.writeHeader(302, {
