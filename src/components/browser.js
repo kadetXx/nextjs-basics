@@ -6,7 +6,7 @@ function Browser() {
 
   return (
     <div>
-      <p>Your screen size is {width}px wide</p>
+      <p>Your screen width is {width}px wide</p>
     </div>
   )
 }
