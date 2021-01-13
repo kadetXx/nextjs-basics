@@ -1,29 +1,16 @@
 import react from "react";
 import Link from "next/link";
 
-const Page = () => {
-  const allNotes = [
-    {
-      id: 1,
-      name: "Kadet",
-    },
-    {
-      id: 2,
-      name: "Exam",
-    },
-    {
-      id: 3,
-      name: "Grocery",
-    },
-    {
-      id: 4,
-      name: "Tutorial",
-    },
-    {
-      id: 5,
-      name: "Reminder",
-    },
-  ];
+const Page = ({ notes }) => {
+
+  const noteUrl = (title) => {
+    const lc = title.toLowerCase()
+    const lcArray = lc.split(' ')
+    const url = lcArray.join('-')
+
+    return url;
+  } 
+
 
   return (
     <div>
@@ -31,10 +18,10 @@ const Page = () => {
       <p>This is the notes index page. It displays all notes</p>
 
       <ul>
-        {allNotes.map((note) => (
-          <li>
-            <Link key={note.id} href='/notes/[id]' as={`/notes/${note.name}`}>
-              <a>{note.name} Note</a>
+        {notes.map((note) => (
+          <li key={note.id}>
+            <Link href='/notes/[id]' as={`/notes/${note.id}`}>
+              <a>{note.title} Note</a>
             </Link>
           </li>
         ))}
@@ -44,3 +31,12 @@ const Page = () => {
 };
 
 export default Page;
+
+export async function getServerSideProps() {
+  const res = await fetch("http://localhost:3000/api/notes");
+  const { data } = await res.json();
+
+  return {
+    props: { notes: data },
+  };
+}
