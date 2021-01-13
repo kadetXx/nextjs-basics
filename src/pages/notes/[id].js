@@ -1,18 +1,42 @@
 import react from "react";
 import { useRouter } from "next/router";
 
-const Page = () => {
+const Page = ({ note }) => {
   const router = useRouter();
 
-  const { id } = router.query;
+  // const { id } = router.query;
 
   return (
     <div>
-      <p>Hello! This is a note {id} </p>
-      <button onClick={e => router.push("/")}>Go home</button>
-      <button onClick={e => router.push('/notes/[id]', '/notes/kadet')}>Open Kadet notes</button>
+      <h3>Hello! This is {note.title} </h3>
+      <button onClick={(e) => router.push("/")}>Go home</button>
+      <button onClick={(e) => router.push("/notes/[...params]", "/notes/kadet/special/note")}>
+        Open secret notes
+      </button>
     </div>
-  )
+  );
 };
 
 export default Page;
+
+export async function getServerSideProps({ params, req, res }) {
+  const response = await fetch(`http://localhost:3000/api/notes/${params.id}`);
+
+  if (!response.ok) {
+    res.writeHeader(302, {
+      Location: "/notes",
+    });
+
+    res.end();
+
+    return {
+      props: {},
+    };
+  }
+
+  const { data } = await response.json();
+
+  return {
+    props: { note: data},
+  };
+}
